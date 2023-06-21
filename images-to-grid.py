@@ -25,14 +25,23 @@ register_heif_opener()
 
 # Use the click.command() and click.argument() decorators
 @click.command()
-@click.argument('folder_path')
+# add a click argument for the label box size
+@click.argument('label_font_size', default=14)
+@click.argument('use_clipboard_for_folder_path', default=True)
 @click.argument('save_folder_path', default='./saved-images')
-def main(folder_path, save_folder_path='./saved-images'):
+def main(label_font_size, use_clipboard_for_folder_path, save_folder_path):
+    if not use_clipboard_for_folder_path:
+        # Get the folder path
+        folder_path = input('Enter the folder path: ')
+    else:
+        # Get the folder path from the clipboard
+        folder_path = pyperclip.paste()
+
     # Get the image paths
     image_paths = get_image_paths(folder_path)
 
     # plot the images
-    good_image_path = plot_images(image_paths, save_folder_path)
+    good_image_path = plot_images(image_paths, label_font_size, save_folder_path)
 
     # load the image
     img = Image.open(good_image_path)
@@ -63,51 +72,49 @@ def process_image(img):
         img = img.crop((0, (height - width) / 2, width, (height + width) / 2))
     
     # Create a blurred version of the image
-    blurred = img.filter(ImageFilter.GaussianBlur(radius=5))  # Adjust radius as needed
+    # blurred = img.filter(ImageFilter.GaussianBlur(radius=5))  # Adjust radius as needed
     
-    # Create a mask: white circle in the middle, black outside
-    mask = Image.new('L', (width, height), 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((width*0.1, height*0.1, width*0.9, height*0.9), fill=255)
+    # # Create a mask: white circle in the middle, black outside
+    # mask = Image.new('L', (width, height), 0)
+    # draw = ImageDraw.Draw(mask)
+    # draw.ellipse((width*0.1, height*0.1, width*0.9, height*0.9), fill=255)
 
-    mask = mask.convert("RGB")  # Convert the mask to RGB mode
-    mask_blurred = mask.filter(ImageFilter.GaussianBlur(radius=100))  # Apply a blur to the mask
+    # mask = mask.convert("RGB")  # Convert the mask to RGB mode
+    # mask_blurred = mask.filter(ImageFilter.GaussianBlur(radius=100))  # Apply a blur to the mask
     
-    # Blend original image and blurred image using mask
-    img = ImageChops.darker(img, ImageChops.lighter(blurred, mask_blurred))
+    # # Blend original image and blurred image using mask
+    # img = ImageChops.darker(img, ImageChops.lighter(blurred, mask_blurred))
 
     return img
 
 # Function to plot the images in a 2-row grid if there are 4, 6, 8 images, and if there are 2 or 3 images, plot them in a row side by side. If there are 5 or 7 images, the first 3 should be plotted in a row and the last 2 should be plotted in a row below and the 6th position should be empty. If there are 7 images, apply a similar logic and plot the images in a grid with 2 rows. If there are 9 images, plot the images in 3 rows. If there are 10 images, plot them in 2 rows.
 # The images should also be clipped to be square about the center of the image and all have the same aspect ratio.
 # The function should take in a list of image paths and a save folder path and save the image to the save folder path and return the saved image path. It should use the current time to create the name of the saved file.
-def plot_images(image_paths, save_folder_path='./saved-images'):
+def plot_images(image_paths, label_font_size, save_folder_path='./saved-images'):
     num_images = len(image_paths)
     timestamp_tag = f'{time()}'[:-5]
     save_path = os.path.join(save_folder_path, f'images-{timestamp_tag}.jpg')
     
     assert num_images > 1 and num_images <= 10, 'Number of images must be between 2 and 10!'
     assert os.path.exists(save_folder_path), 'Save folder path does not exist!'
+
+    # define the box properties
+    box_props = dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#E0E0E0', alpha=0.8)
     
     if num_images == 2 or num_images == 3:
         fig, ax = plt.subplots(1, num_images, figsize=(10, 10))
 
         for i in range(num_images):
             img = Image.open(image_paths[i])
-            width, height = img.size
-            if width > height:
-                img = img.crop(((width - height) / 2, 0, (width + height) / 2, height))
-            else:
-                img = img.crop((0, (height - width) / 2, width, (height + width) / 2))
+            img = process_image(img)
 
             ax[i].imshow(img)
             ax[i].axis('off')
             
             # Add annotation
             annotation = chr(97 + i)  # Get the corresponding letter (a, b, c, etc.)
-            box_props = dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#E0E0E0', alpha=0.8)
             ax[i].text(0.95, 0.95, f'$\mathrm{{({annotation})}}$', transform=ax[i].transAxes,
-                       fontsize=14, verticalalignment='top', horizontalalignment='right',
+                       fontsize=label_font_size, verticalalignment='top', horizontalalignment='right',
                        bbox=box_props)
 
         plt.subplots_adjust(wspace=0, hspace=0)
@@ -140,9 +147,8 @@ def plot_images(image_paths, save_folder_path='./saved-images'):
 
             # Add annotation
             annotation = chr(97 + i)
-            box_props = dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#E0E0E0', alpha=0.8)
             ax.text(0.95, 0.95, f'$\mathrm{{({annotation})}}$', transform=ax.transAxes,
-                    fontsize=14, verticalalignment='top', horizontalalignment='right',
+                    fontsize=label_font_size, verticalalignment='top', horizontalalignment='right',
                     bbox=box_props)
 
         plt.axis('off')
