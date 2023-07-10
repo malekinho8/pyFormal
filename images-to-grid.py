@@ -29,8 +29,8 @@ register_heif_opener()
 @click.option('--label_font_size','-l', default=14, help='Font size for the image labels')
 @click.option('--use_clipboard_for_folder_path','-c', default=True, help='Use the clipboard for the folder path')
 @click.option('--save_folder_path', '-f', default='./saved-images', help='Folder path to save the images')
-@click.option('--border_width_ratio', '-b', type=float, default=0.10, help='How much to make the border width of the output image')  # Change from 'border_width' to 'border_width_ratio'
-@click.option('--blur_intensity','-i', type=int, default=10, help='How intense to make the border width blur.') # New argument for blur intensity
+@click.option('--border_width_ratio', '-b', type=float, default=0.01, help='How much to make the border width of the output image')  # Change from 'border_width' to 'border_width_ratio'
+@click.option('--blur_intensity','-i', type=int, default=25, help='How intense to make the border width blur.') # New argument for blur intensity
 @click.option('--manual_image_folder_path', '-m', default=None, help='Manually enter the image folder path. To use this, use_clipboard_for_folder_path must be set to False.')
 def main(label_font_size, use_clipboard_for_folder_path, save_folder_path, border_width_ratio, blur_intensity, manual_image_folder_path):  # Include blur_intensity in function arguments
     if not use_clipboard_for_folder_path:
