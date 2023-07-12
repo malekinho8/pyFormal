@@ -38,7 +38,10 @@ def main(label_font_size, use_clipboard_for_folder_path, save_folder_path, borde
         folder_path = input('Enter the folder path: ')
     else:
         # Get the folder path from the clipboard
-        folder_path = manual_image_folder_path
+        if manual_image_folder_path is None:
+            folder_path = pyperclip.paste()
+        else:
+            folder_path = manual_image_folder_path
 
     # Get the image paths
     image_paths = get_image_paths(folder_path)
