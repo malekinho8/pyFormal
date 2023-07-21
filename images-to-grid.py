@@ -68,6 +68,10 @@ def get_image_paths(folder_path):
             image_paths.append(os.path.join(folder_path, filename))
     
     print(f'Found {len(image_paths)} images in {folder_path}')
+
+    # order the paths by the time they were created
+    image_paths = sorted(image_paths, key=os.path.getctime)
+    
     return image_paths
 
 def process_image(img, border_width_ratio=0.05, blur_intensity=10):  # Changed border_width to border_width_ratio
