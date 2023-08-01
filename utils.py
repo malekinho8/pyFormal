@@ -115,7 +115,7 @@ def get_image_paths(folder_path):
     # Get the image paths
     image_paths = []
     for filename in os.listdir(folder_path):
-        if filename.endswith(".png") or filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith('.HEIC'):
+        if filename.endswith(".png") or filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith('.HEIC') or filename.endswith('.heic'):
             image_paths.append(os.path.join(folder_path, filename))
     
     print(f'Found {len(image_paths)} images in {folder_path}')
