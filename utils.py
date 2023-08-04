@@ -121,8 +121,8 @@ def get_image_paths(folder_path):
     print(f'Found {len(image_paths)} images in {folder_path}')
 
     # order the paths by the time they were created
-    image_paths = sorted(image_paths, key=os.path.getctime)
-
+    image_paths = sorted(image_paths, key=lambda path: os.path.basename(path).lower())
+    
     return image_paths
 
 # Function to plot the images in a 2-row grid if there are 4, 6, 8 images, and if there are 2 or 3 images, plot them in a row side by side. If there are 5 or 7 images, the first 3 should be plotted in a row and the last 2 should be plotted in a row below and the 6th position should be empty. If there are 7 images, apply a similar logic and plot the images in a grid with 2 rows. If there are 9 images, plot the images in 3 rows. If there are 10 images, plot them in 2 rows.
