@@ -165,7 +165,11 @@ def plot_images(image_paths, label_font_size, save_folder_path='./saved-images',
         nrows = 2
         ncols = int(np.ceil(num_images / 2))
 
-        fig = plt.figure(figsize=(5 * ncols, 10))  # Adjusted figure size
+        # Set the size of an individual subplot, keeping them the same for a 1:1 aspect ratio
+        subplot_size = 3
+
+        # Set the figure size based on the subplot size and number of rows and columns
+        fig = plt.figure(figsize=(subplot_size * ncols, subplot_size * nrows))
 
         gs = gridspec.GridSpec(nrows, ncols,
                             width_ratios=[1] * ncols,
@@ -195,12 +199,10 @@ def plot_images(image_paths, label_font_size, save_folder_path='./saved-images',
         fig.savefig(save_path, bbox_inches='tight', pad_inches=0)
     elif num_images in {5,7,9}: # odd number of images
         fig = make_fancy_figure_for_odd_n(num_images, image_paths, border_width_ratio, blur_intensity, border_color, label_font_size, box_props, mode)
-
-
-    plt.axis('off')
-    if verbosity == 'show_plots':
-        plt.show()
-    fig.tight_layout(pad=0)
-    fig.savefig(save_path, bbox_inches='tight', pad_inches=0)
+        plt.axis('off')
+        if verbosity == 'show_plots':
+            plt.show()
+        fig.tight_layout(pad=0)
+        fig.savefig(save_path, bbox_inches='tight', pad_inches=0)
     
     return save_path
