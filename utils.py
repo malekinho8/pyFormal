@@ -23,8 +23,11 @@ def make_fancy_figure_for_odd_n(n, image_paths, border_width_ratio, blur_intensi
     # define desired ncols
     ncols = int(np.ceil(n / nrows))
 
+    # specify the subplot size
+    subplot_size = 3
+
     # initialize the figure and gridspec
-    fig = plt.figure(figsize=(5 * ncols, 10))  # Adjusted figure size
+    fig = plt.figure(figsize=(subplot_size * ncols, subplot_size * nrows))  # Adjusted figure size
     gs = gridspec.GridSpec(nrows, cols,
                         width_ratios=[1] * cols,
                         height_ratios=[1] * nrows,
@@ -115,7 +118,7 @@ def get_image_paths(folder_path):
     # Get the image paths
     image_paths = []
     for filename in os.listdir(folder_path):
-        if filename.endswith(".png") or filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith('.HEIC') or filename.endswith('.heic'):
+        if filename.endswith(".png") or filename.endswith(".PNG") or filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith('.HEIC') or filename.endswith('.heic'):
             image_paths.append(os.path.join(folder_path, filename))
     
     print(f'Found {len(image_paths)} images in {folder_path}')
