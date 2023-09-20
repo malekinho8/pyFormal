@@ -135,9 +135,12 @@ def plot_images(image_paths, label_font_size, save_folder_path='./saved-images',
     num_images = len(image_paths)
     timestamp_tag = f'{time()}'[:-5]
     save_path = os.path.join(save_folder_path, f'images-{timestamp_tag}.jpg')
+
+    # Check if the save folder exists and create it if not
+    if not os.path.exists(save_folder_path):
+        os.makedirs(save_folder_path)
     
     assert num_images > 1 and num_images <= 10, 'Number of images must be between 2 and 10!'
-    assert os.path.exists(save_folder_path), 'Save folder path does not exist!'
 
     # define the box properties
     box_props = dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor='#E0E0E0', alpha=0.8)
