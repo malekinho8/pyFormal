@@ -15,7 +15,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'pyFormal=pyFormal.images_to_grid:main',
+            'pyFormal=pyFormal.images2grid:main',
         ],
     },
     author='Malek',
