@@ -8,12 +8,12 @@ import matplotlib.patheffects as path_effects
 import subprocess
 import numpy as np
 import click
-import sys; sys.path.append('..')
+import sys; sys.path.append('./')
 from matplotlib import gridspec
 from PIL import Image, ImageFilter, ImageOps, ImageDraw
 from pillow_heif import register_heif_opener
 from time import time
-from utils import *
+from pyFormal.utils import *
 
 # use latex for matplotlib
 plt.rc('text', usetex=True)
