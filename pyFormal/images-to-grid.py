@@ -8,6 +8,7 @@ import matplotlib.patheffects as path_effects
 import subprocess
 import numpy as np
 import click
+import sys; sys.path.append('..')
 from matplotlib import gridspec
 from PIL import Image, ImageFilter, ImageOps, ImageDraw
 from pillow_heif import register_heif_opener
@@ -24,11 +25,11 @@ register_heif_opener()
 # Use the click.command() and click.argument() decorators
 @click.command()
 # add a click argument for the label box size
-@click.option('--label_font_size','-l', default=14, help='Font size for the image labels')
+@click.option('--label_font_size','-l', default=18, help='Font size for the image labels')
 @click.option('--use_clipboard_for_folder_path','-c', default=True, help='Use the clipboard for the folder path')
-@click.option('--save_folder_path', '-f', default='./saved-images', help='Folder path to save the images')
+@click.option('--save_folder_path', '-f', default='./pyFormal-figures', help='Folder path to save the images')
 @click.option('--border_width_ratio', '-b', type=float, default=0.01, help='How much to make the border width of the output image')  # Change from 'border_width' to 'border_width_ratio'
-@click.option('--blur_intensity','-i', type=int, default=25, help='How intense to make the border width blur.') # New argument for blur intensity
+@click.option('--blur_intensity','-i', type=int, default=10, help='How intense to make the border width blur.') # New argument for blur intensity
 @click.option('--manual_image_folder_path', '-m', default=None, help='Manually enter the image folder path. To use this, use_clipboard_for_folder_path must be set to False.')
 @click.option('--border-color', '-bc', default='white', help='Color of the border.')
 @click.option('--resize-mode', '-r', default='crop', help='Mode for resizing the images. Options are "crop" and "pad".')
