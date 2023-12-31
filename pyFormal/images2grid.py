@@ -1,18 +1,11 @@
 # This function should take in a folder path (string) and print the saved image path as well as save the image to the clipboard
 
 # Importing libraries
-import os
 import pyperclip
 import matplotlib.pyplot as plt
-import matplotlib.patheffects as path_effects
-import subprocess
-import numpy as np
 import click
 import sys; sys.path.append('./')
-from matplotlib import gridspec
-from PIL import Image, ImageFilter, ImageOps, ImageDraw
 from pillow_heif import register_heif_opener
-from time import time
 from pyFormal.utils import *
 
 # use latex for matplotlib

@@ -13,6 +13,35 @@ from time import time
 # Set verbosity
 verbosity = 'show_plots'
 
+def round_mp4_corners_with_mask(file_path, rounded_corner_size,rounded_corner_pct):
+    # Convert shadow_radius from pt to pixels (assuming 1pt = 1.3333 pixels, but this may vary)
+    radius_in_pixels = int(rounded_corner_size * 1.3333)
+
+    # Use ffmpeg to generate the mask with rounded corners
+    mask_path = "mask.png"
+    subprocess.call([
+        'ffmpeg', '-y', '-f', 'lavfi', '-i',
+        f'color=c=white:s=1280x720:duration=0.1,drawbox=w=iw:h=ih:t={radius_in_pixels}:color=black@1.0',
+        '-frames:v', '1',
+        mask_path
+    ])
+
+    output_path = file_path.replace('.mp4','-rounded.mp4')
+
+    # Overlay the mask onto the video
+    subprocess.call([
+        'ffmpeg', '-y', '-i', file_path, '-i', mask_path, '-filter_complex',
+        '[0][1]overlay=format=auto',
+        output_path
+    ])
+
+    return output_path
+
+def round_mp4_corners(file_path,rounded_corner_size,rounded_corner_pct):
+
+
+    return None # should use ffmpeg to save the 
+
 def make_fancy_figure_for_odd_n(n, image_paths, border_width_ratio, blur_intensity, border_color, label_font_size, box_props, mode, nrows=2):
     """
     Creates fancy figure for n images if n is odd.

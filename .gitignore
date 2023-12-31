@@ -7,3 +7,5 @@ pyFormal-figures/
 pyFormal.egg-info/
 dist/
 build/
+mask.png
+output.mp4
