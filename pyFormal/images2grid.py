@@ -42,7 +42,7 @@ def main(label_font_size, use_clipboard_for_folder_path, save_folder_path, borde
     image_paths = get_image_paths(folder_path)
 
     # plot the images
-    good_image_path = plot_images(image_paths, label_font_size, save_folder_path, border_width_ratio, blur_intensity, border_color, resize_mode)
+    good_image_path = plot_images(image_paths, save_folder_path, None, label_font_size, border_width_ratio, blur_intensity, border_color, resize_mode)
 
     # load the image
     img = Image.open(good_image_path)

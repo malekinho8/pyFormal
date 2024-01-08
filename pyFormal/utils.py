@@ -160,10 +160,10 @@ def get_image_paths(folder_path):
 # Function to plot the images in a 2-row grid if there are 4, 6, 8 images, and if there are 2 or 3 images, plot them in a row side by side. If there are 5 or 7 images, the first 3 should be plotted in a row and the last 2 should be plotted in a row below and the 6th position should be empty. If there are 7 images, apply a similar logic and plot the images in a grid with 2 rows. If there are 9 images, plot the images in 3 rows. If there are 10 images, plot them in 2 rows.
 # The images should also be clipped to be square about the center of the image and all have the same aspect ratio.
 # The function should take in a list of image paths and a save folder path and save the image to the save folder path and return the saved image path. It should use the current time to create the name of the saved file.
-def plot_images(image_paths, label_font_size, save_folder_path='./saved-images', border_width_ratio=0.05, blur_intensity=10, border_color='white', mode="crop"):
+def plot_images(image_paths, save_folder_path='./saved-images', save_name=None, label_font_size=20, border_width_ratio=0.05, blur_intensity=10, border_color='white', mode="crop"):
     num_images = len(image_paths)
     timestamp_tag = f'{time()}'[:-5]
-    save_path = os.path.join(save_folder_path, f'images-{timestamp_tag}.jpg')
+    save_path = os.path.join(save_folder_path, f'images-{timestamp_tag}.jpg') if save_name is None else os.path.join(save_folder_path, save_name)
 
     # Check if the save folder exists and create it if not
     if not os.path.exists(save_folder_path):
